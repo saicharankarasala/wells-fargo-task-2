@@ -1,17 +1,20 @@
 package com.wellsfargo.counselor.entity;
 
-
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-public class Advisor {
+public class Client {
 
     @Id
     @GeneratedValue()
-    private long advisorId;
+    private long clientId;
+
+    @ManyToOne
+    @JoinColumn(name = "advisor_id", nullable = false)
+    private Advisor advisor;
 
     @Column(nullable = false)
     private String firstName;
@@ -23,7 +26,7 @@ public class Advisor {
     private String email;
 
     @Column(nullable = false)
-    private String status;
+    private String phone;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
@@ -31,25 +34,34 @@ public class Advisor {
     @Column(nullable = false)
     private LocalDateTime updatedAt;
 
-    @OneToMany(mappedBy = "advisor", cascade = CascadeType.ALL)
-    private List<Client> clients = new ArrayList<>();
+    @OneToMany(mappedBy = "client", cascade = CascadeType.ALL)
+    private List<Portfolio> portfolios = new ArrayList<>();
 
-    protected Advisor() {
+    protected Client() {
 
     }
 
-    public Advisor(String firstName, String lastName, String email, String status, LocalDateTime createdAt, LocalDateTime updatedAt) {
+    public Client(Advisor advisor, String firstName, String lastName, String email, String phone, LocalDateTime createdAt, LocalDateTime updatedAt) {
+        this.advisor = advisor;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
-        this.status = status;
+        this.phone = phone;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.clients = new ArrayList<>();
+        this.portfolios = new ArrayList<>();
     }
 
-    public Long getAdvisorId() {
-        return advisorId;
+    public Long getClientId() {
+        return clientId;
+    }
+
+    public Advisor getAdvisor() {
+        return advisor;
+    }
+
+    public void setAdvisor(Advisor advisor) {
+        this.advisor = advisor;
     }
 
     public String getFirstName() {
@@ -76,12 +88,12 @@ public class Advisor {
         this.email = email;
     }
 
-    public String getStatus() {
-        return status;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public LocalDateTime getCreatedAt() {
@@ -100,11 +112,12 @@ public class Advisor {
         this.updatedAt = updatedAt;
     }
 
-    public List<Client> getClients() {
-        return clients;
+    public List<Portfolio> getPortfolios() {
+        return portfolios;
     }
 
-    public void setClients(List<Client> clients) {
-        this.clients = clients;
+    public void setPortfolios(List<Portfolio> portfolios) {
+        this.portfolios = portfolios;
     }
 }
+
