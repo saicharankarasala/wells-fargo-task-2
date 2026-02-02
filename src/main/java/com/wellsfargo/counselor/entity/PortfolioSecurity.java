@@ -1,6 +1,7 @@
 package com.wellsfargo.counselor.entity;
 
 import jakarta.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
@@ -21,8 +22,8 @@ public class PortfolioSecurity {
     @Column(nullable = false)
     private LocalDate purchaseDate;
 
-    @Column(nullable = false)
-    private double purchasePrice;
+    @Column(nullable = false, precision = 19, scale = 2)
+    private BigDecimal purchasePrice;
 
     @Column(nullable = false)
     private int quantity;
@@ -31,7 +32,7 @@ public class PortfolioSecurity {
 
     }
 
-    public PortfolioSecurity(Portfolio portfolio, Security security, LocalDate purchaseDate, double purchasePrice, int quantity) {
+    public PortfolioSecurity(Portfolio portfolio, Security security, LocalDate purchaseDate, BigDecimal purchasePrice, int quantity) {
         this.portfolio = portfolio;
         this.security = security;
         this.purchaseDate = purchaseDate;
@@ -67,11 +68,11 @@ public class PortfolioSecurity {
         this.purchaseDate = purchaseDate;
     }
 
-    public double getPurchasePrice() {
+    public BigDecimal getPurchasePrice() {
         return purchasePrice;
     }
 
-    public void setPurchasePrice(double purchasePrice) {
+    public void setPurchasePrice(BigDecimal purchasePrice) {
         this.purchasePrice = purchasePrice;
     }
 
@@ -83,4 +84,3 @@ public class PortfolioSecurity {
         this.quantity = quantity;
     }
 }
-
